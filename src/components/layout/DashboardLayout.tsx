@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -25,6 +26,7 @@ interface DashboardLayoutProps {
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, title }) => {
   const { user, logout } = useAuth();
+  const location = useLocation();
 
   const getRoleIcon = () => {
     switch (user?.role) {
@@ -62,9 +64,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, title }) =>
       case 'distributor':
         return [
           ...baseItems,
-          { icon: <QrCode className="h-4 w-4" />, label: 'Scan & Verify', path: '/verify-batch' },
-          { icon: <Package className="h-4 w-4" />, label: 'Inventory', path: '/inventory' },
-          { icon: <Settings className="h-4 w-4" />, label: 'Quality Assurance', path: '/quality' },
+          { icon: <QrCode className="h-4 w-4" />, label: 'Scan & Update', path: '/scan-update' },
+          { icon: <Package className="h-4 w-4" />, label: 'Update Batch', path: '/update-batch' },
+          { icon: <Settings className="h-4 w-4" />, label: 'Lab Reports', path: '/lab-reports' },
           { icon: <CreditCard className="h-4 w-4" />, label: 'Smart Contracts', path: '/contracts' }
         ];
       case 'consumer':
@@ -122,17 +124,21 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, title }) =>
       <nav className="border-b bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="flex items-center gap-1 py-2 overflow-x-auto">
-            {getNavItems().map((item, index) => (
-              <Button
-                key={index}
-                variant="ghost"
-                size="sm"
-                className="flex items-center gap-2 whitespace-nowrap"
-              >
-                {item.icon}
-                <span className="hidden sm:inline">{item.label}</span>
-              </Button>
-            ))}
+            {getNavItems().map((item, index) => {
+              const isActive = location.pathname === item.path;
+              return (
+                <Link key={index} to={item.path}>
+                  <Button
+                    variant={isActive ? "default" : "ghost"}
+                    size="sm"
+                    className="flex items-center gap-2 whitespace-nowrap"
+                  >
+                    {item.icon}
+                    <span className="hidden sm:inline">{item.label}</span>
+                  </Button>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </nav>

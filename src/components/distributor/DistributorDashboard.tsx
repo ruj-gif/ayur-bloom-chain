@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -113,14 +114,18 @@ const DistributorDashboard: React.FC = () => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Button variant="distributor" size="lg" className="h-16">
-              <Scan className="h-5 w-5 mr-2" />
-              Scan QR Code
-            </Button>
-            <Button variant="farmer" size="lg" className="h-16">
-              <FileText className="h-5 w-5 mr-2" />
-              Upload Lab Report
-            </Button>
+            <Link to="/scan-update">
+              <Button variant="distributor" size="lg" className="h-16 w-full">
+                <Scan className="h-5 w-5 mr-2" />
+                Scan & Update
+              </Button>
+            </Link>
+            <Link to="/lab-reports">
+              <Button variant="farmer" size="lg" className="h-16 w-full">
+                <FileText className="h-5 w-5 mr-2" />
+                Upload Lab Report
+              </Button>
+            </Link>
             <Button variant="consumer" size="lg" className="h-16">
               <TrendingUp className="h-5 w-5 mr-2" />
               View Analytics
@@ -251,10 +256,6 @@ const DistributorDashboard: React.FC = () => {
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium">Accuracy Score</span>
                 <span className="text-sm font-bold text-success">98.5%</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">Response Time</span>
-                <span className="text-sm font-bold">&lt; 24 hours</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium">Farmer Satisfaction</span>

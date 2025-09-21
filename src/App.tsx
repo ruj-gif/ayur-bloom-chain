@@ -6,6 +6,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import BatchUpdatePage from "./pages/BatchUpdatePage";
+import LabReportsPage from "./pages/LabReportsPage";
+import ScanUpdatePage from "./pages/ScanUpdatePage";
+import RegisterHarvestPage from "./pages/RegisterHarvestPage";
+import QRScannerPage from "./pages/QRScannerPage";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +23,14 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
+            {/* Distributor Routes */}
+            <Route path="/update-batch" element={<BatchUpdatePage />} />
+            <Route path="/lab-reports" element={<LabReportsPage />} />
+            <Route path="/scan-update" element={<ScanUpdatePage />} />
+            {/* Farmer Routes */}
+            <Route path="/register-harvest" element={<RegisterHarvestPage />} />
+            {/* Consumer Routes */}
+            <Route path="/scanner" element={<QRScannerPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
