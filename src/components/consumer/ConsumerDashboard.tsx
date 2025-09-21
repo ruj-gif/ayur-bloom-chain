@@ -113,7 +113,12 @@ const ConsumerDashboard: React.FC = () => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Button variant="farmer" size="lg" className="h-16">
+            <Button 
+              variant="farmer" 
+              size="lg" 
+              className="h-16"
+              onClick={() => window.location.href = '/qr-scanner'}
+            >
               <QrCode className="h-5 w-5 mr-2" />
               Scan QR Code
             </Button>

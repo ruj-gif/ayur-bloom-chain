@@ -68,6 +68,41 @@ const QRScanner: React.FC = () => {
     }
   };
 
+  const getScanOptions = (batch: any) => [
+    {
+      id: 'farmer',
+      title: 'Farmer Details',
+      description: `View ${batch.farmerName}'s farm information and harvest details`,
+      icon: <Leaf className="h-4 w-4 text-success" />,
+      available: true
+    },
+    {
+      id: 'distributor', 
+      title: 'Distributor Records',
+      description: 'Quality verification and distribution information',
+      icon: <Package className="h-4 w-4 text-primary" />,
+      available: batch.status === 'verified'
+    },
+    {
+      id: 'lab-report',
+      title: 'Lab Reports',
+      description: 'Quality analysis and certification documents',
+      icon: <FileText className="h-4 w-4 text-accent" />,
+      available: !!batch.labReport
+    },
+    {
+      id: 'blockchain',
+      title: 'Blockchain Records',
+      description: 'Immutable transaction history and verification',
+      icon: <Shield className="h-4 w-4 text-purple-500" />,
+      available: !!batch.blockchainHash
+    }
+  ];
+
+  const handleScanOptionClick = (batchId: string) => {
+    window.location.href = `/product-trace?batch=${batchId}`;
+  };
+
   const handleManualSearch = () => {
     if (!manualBatchId.trim()) {
       toast({
@@ -223,7 +258,7 @@ const QRScanner: React.FC = () => {
       {/* Batch Results */}
       {scannedBatch && (
         <div className="space-y-6">
-          {/* Batch Overview */}
+          {/* Scan Options */}
           <Card>
             <CardHeader>
               <div className="flex items-center justify-between">
@@ -232,12 +267,61 @@ const QRScanner: React.FC = () => {
                     <Package className="h-6 w-6 text-primary" />
                     {scannedBatch.herbType}
                   </CardTitle>
-                  <CardDescription>Batch ID: {scannedBatch.id}</CardDescription>
+                  <CardDescription>Batch ID: {scannedBatch.id} - Select information to view</CardDescription>
                 </div>
                 <Badge variant={getStatusColor(scannedBatch.status)} className="text-sm">
                   {scannedBatch.status.charAt(0).toUpperCase() + scannedBatch.status.slice(1)}
                 </Badge>
               </div>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {getScanOptions(scannedBatch).map((option) => (
+                  <Card 
+                    key={option.id}
+                    className={`cursor-pointer transition-colors hover:border-primary/50 ${
+                      option.available ? 'opacity-100' : 'opacity-50'
+                    }`}
+                    onClick={() => option.available && handleScanOptionClick(scannedBatch.id)}
+                  >
+                    <CardContent className="p-4">
+                      <div className="flex items-start gap-3">
+                        <div className="flex-shrink-0">
+                          {option.icon}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-medium mb-1">{option.title}</h4>
+                          <p className="text-sm text-muted-foreground">{option.description}</p>
+                          {!option.available && (
+                            <Badge variant="secondary" className="text-xs mt-2">Not Available</Badge>
+                          )}
+                        </div>
+                        {option.available && (
+                          <div className="text-primary">→</div>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+              
+              <div className="mt-6 flex justify-center">
+                <Button 
+                  variant="farmer" 
+                  onClick={() => handleScanOptionClick(scannedBatch.id)}
+                  className="w-full md:w-auto"
+                >
+                  <MapPin className="h-4 w-4 mr-2" />
+                  View Complete Product Trace
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Batch Overview */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Quick Overview</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

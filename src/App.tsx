@@ -11,6 +11,7 @@ import LabReportsPage from "./pages/LabReportsPage";
 import ScanUpdatePage from "./pages/ScanUpdatePage";
 import RegisterHarvestPage from "./pages/RegisterHarvestPage";
 import QRScannerPage from "./pages/QRScannerPage";
+import ProductTracePage from "./pages/ProductTracePage";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ const App = () => (
             <Route path="/register-harvest" element={<RegisterHarvestPage />} />
             {/* Consumer Routes */}
             <Route path="/scanner" element={<QRScannerPage />} />
+            <Route path="/product-trace" element={<ProductTracePage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
